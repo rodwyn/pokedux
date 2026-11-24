@@ -4,15 +4,19 @@ import './App.css';
 import Searcher from './components/Searcher';
 import PokemonList from './components/PokemonList';
 import logo from './statics/logo.svg'
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { getPokemon } from './api';
+import { setPokemons } from './actions';
+import { useDispatch, useSelector } from 'react-redux';
 
 function App() {
-  const [pokemons, setPokemons] = useState([]);
+  const pokemons = useSelector(state => state.pokemons);
+  const dispatch = useDispatch();
+
   useEffect(()=>{
     const fetchPokemons = async () => {
       const pokemonsResponse = await getPokemon();
-      setPokemons(pokemonsResponse);
+      dispatch(setPokemons(pokemonsResponse));
     }
 
     fetchPokemons();
@@ -31,5 +35,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
